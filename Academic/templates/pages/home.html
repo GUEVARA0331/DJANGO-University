@@ -1,0 +1,30 @@
+{% extends "layout.html" %} 
+
+{% block title %} Univeridad | Inicio {% endblock %} 
+
+{% block header-page %} 
+    <div class="col-sm-6">
+        <h1 class="m-0">Página de inicio</h1>
+    </div><!-- /.col -->
+    <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+        <li class="breadcrumb-item"><a href="{% url 'home' %}">Inicio</a></li>
+        <li class="breadcrumb-item active">Página de inicio</li>
+        </ol>
+    </div><!-- /.col -->
+{% endblock %} 
+
+{% block content %}     
+    <div class="col-10 mx-auto">
+        <div class="p-5 bg-dark rounded-5">  
+            <div class="container"> 
+                <h1 class="display-3">Universidad</h1> 
+                <hr class="bg-light">
+                <p class="lead">
+                    Prototipo Django para administrar Libros, Carreras, Estudiantes, Cursos, Matriculas y módulo de Contacto (envio de emails) que hacen parte de una universidad con persistencia MySQL.
+                </p> 
+                <hr class="my-2 bg-dark"> 
+            </div> 
+        </div>
+    </div>
+{% endblock %}

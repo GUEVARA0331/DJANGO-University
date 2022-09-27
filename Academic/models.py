@@ -77,3 +77,22 @@ class Enrollment(models.Model):
         enrDat = self.enrollmentDate.strftime("%A %d/%m/%Y %H:%M:%S")
         return txt.format(self.student.fullName(), sexLetter, self.course, self.enrollmentDate)
 
+class Book(models.Model): 
+    id = models.AutoField(primary_key=True)
+    title = models.CharField(max_length=100, verbose_name="Título")
+    image = models.ImageField(upload_to='images/', null=True, verbose_name="Imagen")
+    description = models.TextField(null=True, verbose_name="Descripción")
+
+    class Meta: 
+        verbose_name = "Libro"
+        verbose_name_plural = "Libros"
+
+    def __str__(self): 
+        txt = "Título {0} - Descripción: {1}"
+        return txt.format(self.title, self.description)
+
+    def delete(self, using=None, keep_parents=False): 
+        self.image.storage.delete(self.image.name)
+        super().delete()
+
+

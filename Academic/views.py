@@ -32,7 +32,7 @@ def formContact(request):
     return render(request, 'pages/contact.html')
 
 def books(request): 
-    books = Book.objects.all()
+    books = Book.objects.all().order_by('-id')
     return render(request, 'books/index.html', {'books':books})
 
 def addBook(request): 
@@ -59,7 +59,7 @@ def editBook(request, id):
     return render(request, 'books/edit.html', {'form':form,'book':book})
 
 def careers(request): 
-    careers = Career.objects.all()
+    careers = Career.objects.all().order_by('-id')
     return render(request, 'careers/index.html', {'careers':careers})
 
 def addCareer(request): 
@@ -78,3 +78,22 @@ def editCareer(request, id):
         messages.success(request, 'Carrera actualizada exitosamente.')
         return redirect('careers')
     return render(request, 'careers/edit.html', {'form':form})
+
+def deleteCareer(request, id): 
+    career = Career.objects.get(id=id)
+    career.delete()
+    messages.success(request, 'Carrera elimanda exitosamente')
+    return redirect('careers')
+
+
+
+
+
+
+
+
+
+
+
+
+

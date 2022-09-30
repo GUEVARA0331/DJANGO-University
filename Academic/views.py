@@ -69,3 +69,12 @@ def addCareer(request):
         messages.success(request, 'Carrera registrada exitosamente.')
         return redirect('careers')
     return render(request, 'careers/add.html', {'form':form})
+
+def editCareer(request, id): 
+    career = Career.objects.get(id=id)
+    form = CareerForm(request.POST or None, instance=career)
+    if form.is_valid() and request.POST: 
+        form.save()
+        messages.success(request, 'Carrera actualizada exitosamente.')
+        return redirect('careers')
+    return render(request, 'careers/edit.html', {'form':form})

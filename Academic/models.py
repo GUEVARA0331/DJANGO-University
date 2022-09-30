@@ -5,9 +5,10 @@ from django.db import models
 
 # Create your models here.
 class Career(models.Model): 
-    code = models.CharField(max_length=8, primary_key=True, verbose_name="Código")
+    id = models.AutoField(primary_key=True)
+    code = models.CharField(max_length=8, verbose_name="Código", unique=True)
     name = models.CharField(max_length=50, verbose_name="Nombre")
-    duration = models.PositiveSmallIntegerField(default=5, verbose_name="Duración")
+    duration = models.PositiveSmallIntegerField(default=5, verbose_name="Duración (años)")
 
     class Meta: 
         verbose_name = "Carrera"

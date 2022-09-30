@@ -5,7 +5,7 @@ from django.conf import settings
 from smtplib import SMTPAuthenticationError
 from socket import gaierror
 from .models import Book, Career
-from .forms import Book, BookForm
+from .forms import BookForm, CareerForm
 import os
 from django.conf import settings 
 
@@ -61,3 +61,11 @@ def editBook(request, id):
 def careers(request): 
     careers = Career.objects.all()
     return render(request, 'careers/index.html', {'careers':careers})
+
+def addCareer(request): 
+    form = CareerForm(request.POST or None)
+    if form.is_valid(): 
+        form.save()
+        messages.success(request, 'Carrera registrada exitosamente.')
+        return redirect('careers')
+    return render(request, 'careers/add.html', {'form':form})

@@ -22,7 +22,7 @@
               <h3 class="m-0">Listado de Carreras Registrados</h3>
             </div>
             <div class="col-auto">
-              <a href="#" class="btn btn-primary">Agregar Nueva Carrera</a>
+              <a href="{% url 'addCareer' %}" class="btn btn-primary">Agregar Nueva Carrera</a>
             </div>
           </div>    
         </div>
@@ -44,7 +44,8 @@
                           <th>{{ forloop.counter }}</th>
                           <td>{{ career.code }}</td>
                           <td>{{ career.name }}</td>
-                          <td>{{ career.duration }}</td>
+                          <td>{{ career.duration }} {% if career.duration == 1  %} año {% else %} años {% endif %}
+                            </td>
                           <td class="text-center">
                             <a href="#" type="button" class="btn btn-outline-warning btn-sm mb-2"><i class="fas fa-edit"></i>Editar</a><br>
                             <a href="#" type="button" class="btn btn-outline-danger btn-sm" id="btnDeleteCareer"><i class="fas fa-trash-alt"></i>Eliminar</a>
@@ -56,29 +57,4 @@
             </div>
         </div>
     </div>
-{% endblock %}
-
-{% block scripts %}
-  <script>
-    const btnsDelete = document.querySelectorAll("#btnDeleteCareer")
-    btnsDelete.forEach((btn) => {
-      btn.addEventListener("click", function (e) {
-        e.preventDefault(); 
-        Swal.fire({
-          title: "¿Confirma la eliminación de la Carrera?",
-          showCancelButton: true,
-          cancelButtonText: "Cancelar", 
-          confirmButtonText: "Eliminar", 
-          confirmButtonColor: "#d33",
-          backdrop: true,
-          showLoaderOnConfirm: true, 
-          preConfirm: () => {
-            location.href = e.target.href; 
-          },
-          allowOutsideClick: () => false, 
-          allowEscapeKey: () => false, 
-        });  
-      });
-    });
-  </script>
 {% endblock %}

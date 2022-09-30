@@ -16,5 +16,6 @@ urlpatterns = [
     path('book/edit/<int:id>', views.editBook, name='editBook'),
 
     path('careers', views.careers, name='careers'),
+    path('career/add', views.addCareer, name='addCareer'),
     
 ]+static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

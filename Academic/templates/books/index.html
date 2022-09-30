@@ -1,0 +1,84 @@
+{% extends "layout.html" %} 
+
+{% block title %} Univeridad | Libros {% endblock %} 
+
+{% block header-page %} 
+    <div class="col-sm-6">
+        <h1 class="m-0">Sección de libros</h1>
+    </div><!-- /.col -->
+    <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+        <li class="breadcrumb-item"><a href="{% url 'books' %}">Libros</a></li>
+        <li class="breadcrumb-item active">Lista</li>
+        </ol>
+    </div><!-- /.col -->
+{% endblock %} 
+
+{% block content %}  
+    <div class="card card-primary card-outline col-10 mx-auto">
+        <div class="card-header">
+          <div class="row">
+            <div class="col-auto me-auto">
+              <h3 class="m-0">Listado de libros registrados</h3>
+            </div>
+            <div class="col-auto">
+              <a href="{% url 'addBook' %}" class="btn btn-primary">Agregar nuevo libro</a>
+            </div>
+          </div>    
+        </div>
+        <div class="card-body">
+            <div class="table table-responsive rounded-3">
+                <table class="table">
+                    <thead class="table-dark">
+                      <tr>
+                        <th>#</th>
+                        <th>Titulo</th>
+                        <th>Imagen</th>
+                        <th>Desripción</th>
+                        <th class="text-center">Acciones</th>
+                      </tr>
+                    </thead>
+                    <tbody">
+                      {% for book in books %}
+                        <tr>                          
+                          <th>{{ forloop.counter }}</th>
+                          <td>{{ book.title }}</td>
+                          <td><img src="{{ MEDIA_URL }}/Academic/images/{{ book.image }}" alt="" height="100"></td>
+                          <td>{{ book.description }}</td>
+                          <td class="text-center">
+                            <a href="{% url 'editBook' book.id %}" type="button" class="btn btn-outline-warning btn-sm mb-2"><i class="fas fa-edit"></i>Editar</a><br>
+                            <a href="{% url 'deleteBook' book.id %}" type="button" class="btn btn-outline-danger btn-sm" id="btnDelete"><i class="fas fa-trash-alt"></i>Eliminar</a>
+                          </td>
+                        </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+  <script>
+    const btnsDelete = document.querySelectorAll("#btnDelete")
+    btnsDelete.forEach((btn) => {
+      btn.addEventListener("click", function (e) {
+        e.preventDefault(); 
+        Swal.fire({
+          title: "¿Confirma la eliminación del libro?",
+          showCancelButton: true,
+          cancelButtonText: "Cancelar", 
+          confirmButtonText: "Eliminar", 
+          confirmButtonColor: "#d33",
+          backdrop: true,
+          showLoaderOnConfirm: true, 
+          preConfirm: () => {
+            location.href = e.target.href; 
+          },
+          allowOutsideClick: () => false, 
+          allowEscapeKey: () => false, 
+        });  
+      });
+    });
+  </script>
+{% endblock %}

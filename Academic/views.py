@@ -4,6 +4,10 @@ from django.core.mail import send_mail
 from django.conf import settings
 from smtplib import SMTPAuthenticationError
 from socket import gaierror
+from .models import Book
+from .forms import Book, BookForm
+import os
+from django.conf import settings 
 
 # Create your views here.
 def home(request):
@@ -26,3 +30,30 @@ def contact(request):
 
 def formContact(request): 
     return render(request, 'pages/contact.html')
+
+def books(request): 
+    books = Book.objects.all()
+    return render(request, 'books/index.html', {'books':books})
+
+def addBook(request): 
+    form = BookForm(request.POST or None, request.FILES or None)
+    if form.is_valid(): 
+        form.save()
+        messages.success(request, 'Libro registrado exitosamente.')
+        return redirect('books')
+    return render(request, 'books/add.html', {'form':form})
+
+def deleteBook(request, id): 
+    book = Book.objects.get(id=id)
+    book.delete()
+    messages.success(request, 'Libro eliminado exitosamente.')
+    return redirect('books')
+
+def editBook(request, id): 
+    book = Book.objects.get(id=id)
+    form = BookForm(request.POST or None, request.FILES or None, instance=book)
+    if form.is_valid() and request.POST:
+        form.save()
+        messages.success(request, 'Libro actualizado exitosamente.')
+        return redirect('books')
+    return render(request, 'books/edit.html', {'form':form,'book':book})

@@ -47,10 +47,43 @@
               <!-- /.card-body -->
               <div class="card-footer">
                 <button type="submit" class="btn btn-info">Enviar</button>
-                <button type="reset" class="btn btn-default float-right">Cancelar</button>
+                <a href="{% url 'home' %}" class="btn btn-default float-right">Cancelar</a>
               </div>
               <!-- /.card-footer -->
             </form>
           </div>
     </div>
+{% endblock %}
+
+{% block scripts %}
+  <script>
+    window.onload = function () { 
+      document.getElementById("formContactEmail").onsubmit = function onSubmit(form) {
+        let timerInterval
+        Swal.fire({
+          backdrop:true,
+          allowOutsideClick:()=>false,
+          allowEscapeKey:()=>false,
+          title: 'Espera un momento',
+          html: 'Enviado mensaje de contacto',
+          timer: 240000,
+          didOpen: () => {
+            Swal.showLoading()
+            const b = Swal.getHtmlContainer().querySelector('b')
+            timerInterval = setInterval(() => {
+              b.textContent = Swal.getTimerLeft()
+            }, 100)
+          },
+          willClose: () => {
+            clearInterval(timerInterval)
+          }
+        }).then((result) => {
+          /* Read more about handling dismissals below */
+          if (result.dismiss === Swal.DismissReason.timer) {
+            console.log('I was closed by the timer')
+          }
+        })
+      } 
+    }
+  </script>
 {% endblock %}

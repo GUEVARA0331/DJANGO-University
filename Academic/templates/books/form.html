@@ -1,0 +1,39 @@
+<form enctype="multipart/form-data" method="post">
+    {% csrf_token %}
+
+    {% for field in form %}
+    <div class="form-group row">
+        <label for="subject" class="col-sm-2 col-form-label">{{ field.label }}</label>
+        <div class="col-sm-10">
+            <input 
+                type="{{ field.field.widget.input_type }}" 
+                class="form-control mb-2" 
+                id="{{ field.name }}" 
+                name="{{ field.name }}"                    
+                placeholder="Ingrese {{ field.label }}"
+                value="{{ field.value | default:'' }}"
+            >
+            {% if field.field.widget.input_type == 'file' %}
+                <img class="ms-2" id="imagePreviewAdd" height="100" style="display:none;">
+            {% endif %}
+            {% if field.field.widget.input_type == 'file' and field.value != '' %}
+                <img class="ms-2" id="imagePreviewEdit"  src="{{ MEDIA_URL }}/Academic/images/{{ field.value }}" height="100" style="display:none;">
+            {% endif %}
+        </div>
+    </div>
+    <div class="col-12 help-text text-danger">
+        {{ field.errors }}
+    </div>
+    {% endfor %}
+
+    <div class="card-footer">
+        <button type="submit" class="btn btn-info">Enviar</button>
+        <a href="{% url 'books' %}" class="btn btn-default float-right">Cancelar</a>
+    </div>
+</form>
+
+
+
+    
+
+  

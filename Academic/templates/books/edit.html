@@ -1,0 +1,55 @@
+{% extends "layout.html" %} 
+
+{% block title %} Univeridad | Libros {% endblock %} 
+
+{% block header-page %} 
+    <div class="col-sm-6">
+        <h1 class="m-0">Actualizar Libro</h1>
+    </div><!-- /.col -->
+    <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+        <li class="breadcrumb-item"><a href="{% url 'books' %}">Libros</a></li>
+        <li class="breadcrumb-item active">Actualizar Libro</li>
+        </ol>
+    </div><!-- /.col -->
+{% endblock %} 
+
+{% block content %}     
+    <div class="col-8 mx-auto">
+        <div class="card card-info">
+            <div class="card-header">
+              <h3 class="card-title fs-4">Datos del libro</h3>
+            </div>
+            <div class="card-body">
+                {% include 'books/form.html' %}
+            </div> 
+          </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script>
+       // Obtener referencia al input y a la imagen
+        const $selectedImage = document.querySelector("#image"),
+        $imagePreviewEdit = document.querySelector("#imagePreviewEdit");
+        $imagePreviewEdit.style.display = "block";
+
+        // Escuchar cuando cambie
+        $selectedImage.addEventListener("change", () => {
+        // Los archivos seleccionados, pueden ser muchos o uno
+        const images = $selectedImage.files;
+        // Si no hay archivos salimos de la función y quitamos la imagen
+        if (!images || !images.length) {
+            $imagePreviewEdit.src = "{{ MEDIA_URL }}/Academic/images/{{ book.image }}";
+            return;
+        }
+        // Ahora tomamos el primer archivo, el cual vamos a previsualizar
+        const firsImage = images[0];
+        // Lo convertimos a un objeto de tipo objectURL
+        const objectURL = URL.createObjectURL(firsImage);
+        // Y a la fuente de la imagen le ponemos el objectURL
+            $imagePreviewEdit.src = objectURL;
+        }); 
+    </script>
+{% endblock %}
+

@@ -4,7 +4,7 @@ from django.core.mail import send_mail
 from django.conf import settings
 from smtplib import SMTPAuthenticationError
 from socket import gaierror
-from .models import Book
+from .models import Book, Career
 from .forms import Book, BookForm
 import os
 from django.conf import settings 
@@ -57,3 +57,7 @@ def editBook(request, id):
         messages.success(request, 'Libro actualizado exitosamente.')
         return redirect('books')
     return render(request, 'books/edit.html', {'form':form,'book':book})
+
+def careers(request): 
+    careers = Career.objects.all()
+    return render(request, 'careers/index.html', {'careers':careers})

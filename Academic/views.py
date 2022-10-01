@@ -88,6 +88,12 @@ def students(request):
     students = Student.objects.all().order_by('-id')
     return render(request, 'students/index.html', {'students':students})
 
+def deleteStudent(request, id): 
+    student = Student.objects.get(id=id)
+    student.delete()
+    messages.success(request, 'Estudiante elimando exitosamente')
+    return redirect('students')
+
 def courses(request): 
     courses = Course.objects.all().order_by('-id')
     return render(request, 'courses/index.html', {'courses':courses})

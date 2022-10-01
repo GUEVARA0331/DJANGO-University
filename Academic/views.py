@@ -100,6 +100,15 @@ def addCourse(request):
         return redirect('courses')
     return render(request, 'courses/add.html', {'form':form})
 
+def editCourse(request, id): 
+    course = Course.objects.get(id=id)
+    form = CourseForm(request.POST or None, instance=course)
+    if form.is_valid() and request.POST: 
+        form.save()
+        messages.success(request, 'Curso actualizado exitosamente.')
+        return redirect('courses')
+    return render(request, 'courses/edit.html', {'form':form})
+
 def enrollments(request): 
     enrollments = Enrollment.objects.all().order_by('-id')
     return render(request, 'enrollments/index.html', {'enrollments':enrollments})

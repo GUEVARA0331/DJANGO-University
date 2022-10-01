@@ -27,5 +27,7 @@ urlpatterns = [
     path('course/add', views.addCourse, name='addCourse'),
 
     path('enrollments', views.enrollments, name='enrollments'),
+    path('course/edit', views.editCourse, name='editCourse'),
+    path('course/edit/<int:id>', views.editCourse, name='editCourse'),
 
 ]+static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

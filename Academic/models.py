@@ -1,4 +1,5 @@
 from email.policy import default
+from enum import unique
 from random import choices
 from weakref import proxy
 from django.db import models
@@ -47,7 +48,8 @@ class Student(models.Model):
         return txt.format(self.fullName(), self.career, studentStatus)
 
 class Course(models.Model): 
-    code = models.CharField(max_length=8, primary_key=True, verbose_name="Código")
+    id = models.AutoField(primary_key=True)
+    code = models.CharField(max_length=8, verbose_name="Código", unique=True)
     name = models.CharField(max_length=30, verbose_name="Nombre")
     credits = models.PositiveSmallIntegerField(verbose_name="Créditos")
     professor = models.CharField(max_length=100, verbose_name="Docente")

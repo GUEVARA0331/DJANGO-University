@@ -25,4 +25,6 @@ urlpatterns = [
 
     path('courses', views.courses, name='courses'),
 
+    path('enrollments', views.enrollments, name='enrollments'),
+
 ]+static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

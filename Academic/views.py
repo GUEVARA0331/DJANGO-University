@@ -4,7 +4,7 @@ from django.core.mail import send_mail
 from django.conf import settings
 from smtplib import SMTPAuthenticationError
 from socket import gaierror
-from .models import Book, Career, Student, Course
+from .models import Book, Career, Student, Course, Enrollment
 from .forms import BookForm, CareerForm
 from django.conf import settings 
 
@@ -92,6 +92,9 @@ def courses(request):
     courses = Course.objects.all().order_by('-id')
     return render(request, 'courses/index.html', {'courses':courses})
 
+def enrollments(request): 
+    enrollments = Enrollment.objects.all().order_by('-id')
+    return render(request, 'enrollments/index.html', {'enrollments':enrollments})
 
 
 

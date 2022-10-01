@@ -1,0 +1,59 @@
+{% extends "layout.html" %} 
+
+{% block title %} Universidad | Matriculas {% endblock %} 
+
+{% block header-page %} 
+    <div class="col-sm-6">
+        <h1 class="m-0">Sección de Matriculas</h1>
+    </div><!-- /.col -->
+    <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+        <li class="breadcrumb-item"><a href="{% url 'enrollments' %}">Matriculas</a></li>
+        <li class="breadcrumb-item active">Lista</li>
+        </ol>
+    </div><!-- /.col -->
+{% endblock %} 
+
+{% block content %}  
+    <div class="card card-primary card-outline col-11 mx-auto">
+        <div class="card-header">
+          <div class="row">
+            <div class="col-auto me-auto">
+              <h3 class="m-0">Listado de Matriculas Registradas</h3>
+            </div>
+            <div class="col-auto">
+              <a href="#" class="btn btn-primary">Agregar Nueva Matricula</a>
+            </div>
+          </div>    
+        </div>
+        <div class="card-body">
+            <div class="table table-responsive rounded-3">
+                <table class="table">
+                    <thead class="table-dark">
+                      <tr>
+                        <th>#</th>
+                        <th>Curso</th>
+                        <th>Estudiante</th>
+                        <th>Inscripción</th>
+                        <th class="text-center">Acciones</th>
+                      </tr>
+                    </thead>
+                    <tbody">
+                      {% for enrollment in enrollments %}
+                        <tr>                          
+                          <th>{{ forloop.counter }}</th>
+                          <td>{{ enrollment.course.name }} ({{ enrollment.course.code }})</td>
+                          <td>{{ enrollment.student.paternalSurname }} {{ enrollment.student.maternalSurname }} {{ enrollment.student.names }}</td>
+                          <td>{{ enrollment.enrollmentDate }}</td>
+                          <td class="text-center">
+                            <a href="#" type="button" class="btn btn-outline-warning btn-sm mb-2"><i class="fas fa-edit"></i>Editar</a><br>
+                            <a href="#" type="button" class="btn btn-outline-danger btn-sm" id="btnDeleteCareer"><i class="fas fa-trash-alt"></i>Eliminar</a>
+                          </td>
+                        </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}

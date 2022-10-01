@@ -81,7 +81,7 @@ def editCareer(request, id):
 def deleteCareer(request, id): 
     career = Career.objects.get(id=id)
     career.delete()
-    messages.success(request, 'Carrera elimanda exitosamente')
+    messages.success(request, 'Carrera eliminada exitosamente')
     return redirect('careers')
 
 def students(request): 
@@ -108,6 +108,12 @@ def editCourse(request, id):
         messages.success(request, 'Curso actualizado exitosamente.')
         return redirect('courses')
     return render(request, 'courses/edit.html', {'form':form})
+
+def deleteCourse(request, id): 
+    course = Course.objects.get(id=id)
+    course.delete()
+    messages.success(request, 'Curso eliminado exitosamente')
+    return redirect('courses')
 
 def enrollments(request): 
     enrollments = Enrollment.objects.all().order_by('-id')

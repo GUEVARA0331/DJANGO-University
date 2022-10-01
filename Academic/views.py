@@ -118,12 +118,18 @@ def editCourse(request, id):
 def deleteCourse(request, id): 
     course = Course.objects.get(id=id)
     course.delete()
-    messages.success(request, 'Curso eliminado exitosamente')
+    messages.success(request, 'Curso eliminado exitosamente.')
     return redirect('courses')
 
 def enrollments(request): 
     enrollments = Enrollment.objects.all().order_by('-id')
     return render(request, 'enrollments/index.html', {'enrollments':enrollments})
+
+def deleteEnrollment(request, id): 
+    enrollment = Enrollment.objects.get(id=id)
+    enrollment.delete()
+    messages.success(request, 'Matricula eliminada exitosamente.')
+    return redirect('enrollments')
 
 
 

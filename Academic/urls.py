@@ -31,5 +31,6 @@ urlpatterns = [
     path('course/delete/<int:id>', views.deleteCourse, name='deleteCourse'),
 
     path('enrollments', views.enrollments, name='enrollments'),
+    path('enrollment/delete/<int:id>', views.deleteEnrollment, name='deleteEnrollment'),
 
 ]+static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

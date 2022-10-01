@@ -19,7 +19,8 @@ class Career(models.Model):
         return txt.format(self.name, self.duration)
 
 class Student(models.Model): 
-    identification = models.CharField(max_length=10, primary_key=True, verbose_name="Identificación")
+    id = models.AutoField(primary_key=True)
+    identification = models.CharField(max_length=10, verbose_name="Identificación", unique=True)
     paternalSurname = models.CharField(max_length=35, verbose_name="Apellido paterno")
     maternalSurname = models.CharField(max_length=35, verbose_name="Apellido materno")
     names = models.CharField(max_length=35, verbose_name="Nombres")

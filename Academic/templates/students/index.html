@@ -1,0 +1,69 @@
+{% extends "layout.html" %} 
+
+{% block title %} Universidad | Estudiantes {% endblock %} 
+
+{% block header-page %} 
+    <div class="col-sm-6">
+        <h1 class="m-0">Sección de Estudiantes</h1>
+    </div><!-- /.col -->
+    <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+        <li class="breadcrumb-item"><a href="{% url 'students' %}">Estudiantes</a></li>
+        <li class="breadcrumb-item active">Lista</li>
+        </ol>
+    </div><!-- /.col -->
+{% endblock %} 
+
+{% block content %}  
+    <div class="card card-primary card-outline col-12 mx-auto">
+        <div class="card-header">
+          <div class="row">
+            <div class="col-auto me-auto">
+              <h3 class="m-0">Listado de Estudiantes Registrados</h3>
+            </div>
+            <div class="col-auto">
+              <a href="#" class="btn btn-primary">Agregar Nuevo Estudiante</a>
+            </div>
+          </div>    
+        </div>
+        <div class="card-body">
+            <div class="table table-responsive rounded-3">
+                <table class="table">
+                    <thead class="table-dark">
+                      <tr>
+                        <th>#</th>
+                        <th>Identificación</th>
+                        <th>Nombre</th>
+                        <th>Carrera</th>
+                        <th class="text-center">Sexo</th>
+                        <th class="text-center">Vigencia</th>
+                        <th class="text-center">Acciones</th>
+                      </tr>
+                    </thead>
+                    <tbody">
+                      {% for student in students %}
+                        <tr>                          
+                          <th>{{ forloop.counter }}</th>
+                          <td>{{ student.identification }}</td>
+                          <td>{{ student.paternalSurname }} {{ student.maternalSurname }} {{ student.names }}</td>
+                          <td>{{ student.career.name }} ({{ student.career.code }})</td>
+                          <td class="text-center">{{ student.sex }}</td>
+                          <td class="text-center">
+                            {% if student.validity %}
+                                <b class="bg-success rounded-5 ps-2 pe-2" style="font-size: 12px;">ACTIVO</b>
+                            {% else %}
+                                <b class="bg-gradient-dark rounded-5 ps-2 pe-2" style="font-size: 12px;">INACTIVO</b>                               
+                            {% endif %}
+                          </td>
+                          <td class="text-center">
+                            <a href="#" type="button" class="btn btn-outline-warning btn-sm mb-2"><i class="fas fa-edit me-1"></i>Editar</a><br>
+                            <a href="#" type="button" class="btn btn-outline-danger btn-sm" id="btnDeleteCareer"><i class="fas fa-trash-alt me-1"></i>Eliminar</a>
+                          </td>
+                        </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}

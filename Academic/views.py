@@ -4,7 +4,7 @@ from django.core.mail import send_mail
 from django.conf import settings
 from smtplib import SMTPAuthenticationError
 from socket import gaierror
-from .models import Book, Career
+from .models import Book, Career, Student
 from .forms import BookForm, CareerForm
 import os
 from django.conf import settings 
@@ -85,6 +85,9 @@ def deleteCareer(request, id):
     messages.success(request, 'Carrera elimanda exitosamente')
     return redirect('careers')
 
+def students(request): 
+    students = Student.objects.all().order_by('-id')
+    return render(request, 'students/index.html', {'students':students})
 
 
 

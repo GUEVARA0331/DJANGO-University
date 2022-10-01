@@ -21,4 +21,6 @@ urlpatterns = [
     path('career/edit/<int:id>', views.editCareer, name='editCareer'),
     path('career/delete/<int:id>', views.deleteCareer, name='deleteCareer'),
     
+    path('students', views.students, name='students'),
+
 ]+static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

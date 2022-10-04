@@ -1,4 +1,4 @@
-from django.shortcuts import HttpResponse, render, redirect
+from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.core.mail import send_mail
 from django.conf import settings
@@ -95,6 +95,15 @@ def addStudent(request):
         messages.success(request, 'Estudiante registrado exitosamente.')
         return redirect('students')
     return render(request, 'students/add.html', {'form':form})
+
+def editStudent(request, id): 
+    student = Student.objects.get(id=id)
+    form = StudentForm(request.POST or None, instance=student)
+    if form.is_valid() and request.POST: 
+        form.save()
+        messages.success(request, 'Estudiante actualizado existosamente')
+        return redirect('students')
+    return render(request, 'students/edit.html', {'form':form})
 
 def deleteStudent(request, id): 
     student = Student.objects.get(id=id)

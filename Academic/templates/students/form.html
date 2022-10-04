@@ -19,11 +19,15 @@
                 {% else %}
                     <input 
                         type="{{ field.field.widget.input_type }}" 
-                        class="form-control mb-2" 
+                        class="form-control" 
                         id="{{ field.name }}" 
                         name="{{ field.name }}"                    
                         placeholder="Ingrese {{ field.label }}"
-                        value="{{ field.value | default:'' }}"
+                        {% if field.field.widget.input_type == 'date' %}
+                            value="{{field.value | date:'c'}}"
+                        {% else %}
+                            value="{{ field.value | default:'' }}"
+                        {% endif %}
                     >
                 {% endif %}
             </div>

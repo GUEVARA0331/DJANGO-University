@@ -5,7 +5,7 @@ from django.conf import settings
 from smtplib import SMTPAuthenticationError
 from socket import gaierror
 from .models import Book, Career, Student, Course, Enrollment
-from .forms import BookForm, CareerForm, CourseForm
+from .forms import BookForm, CareerForm, CourseForm, StudentForm
 from django.conf import settings 
 
 # Create your views here.
@@ -87,6 +87,14 @@ def deleteCareer(request, id):
 def students(request): 
     students = Student.objects.all().order_by('-id')
     return render(request, 'students/index.html', {'students':students})
+
+def addStudent(request): 
+    form = StudentForm(request.POST or None)
+    if form.is_valid(): 
+        form.save()
+        messages.success(request, 'Estudiante registrado exitosamente.')
+        return redirect('students')
+    return render(request, 'students/add.html', {'form':form})
 
 def deleteStudent(request, id): 
     student = Student.objects.get(id=id)

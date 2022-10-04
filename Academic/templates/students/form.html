@@ -1,0 +1,47 @@
+<form method="post">
+
+    {% csrf_token %}
+
+    {% for field in form %}
+    <div class="form-group row mb-2">
+        {% if field.field.widget.input_type == 'checkbox' %}
+            <label for="subject" class="col-sm-4 col-form-label">{{ field.label }}</label>            
+            <div class="col-sm-8">
+                <div class="form-check mt-2">
+                    {{ field }}
+                </div>
+            </div>
+        {% else %}
+            <label for="subject" class="col-sm-4 col-form-label">{{ field.label }}</label>            
+            <div class="col-sm-8">
+                {% if field.field.widget.input_type == 'select' %}
+                    {{ field }}
+                {% else %}
+                    <input 
+                        type="{{ field.field.widget.input_type }}" 
+                        class="form-control mb-2" 
+                        id="{{ field.name }}" 
+                        name="{{ field.name }}"                    
+                        placeholder="Ingrese {{ field.label }}"
+                        value="{{ field.value | default:'' }}"
+                    >
+                {% endif %}
+            </div>
+        {% endif %}
+    </div>
+    <div class="col-12 help-text text-danger">
+        {{ field.errors }}
+    </div>
+    {% endfor %}
+
+    <div class="card-footer">
+        <button type="submit" class="btn btn-info">Enviar</button>
+        <a href="{% url 'students' %}" class="btn btn-default float-right">Cancelar</a>
+    </div>
+</form>
+
+
+
+    
+
+  

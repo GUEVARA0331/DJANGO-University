@@ -16,12 +16,12 @@ class Career(models.Model):
         verbose_name_plural = "Carreras"
 
     def __str__(self):
-        txt = "{0} ({1} año(s))"
-        return txt.format(self.name, self.duration)
+        txt = "{0} ({1})"
+        return txt.format(self.name, self.code)
 
 class Student(models.Model): 
     id = models.AutoField(primary_key=True)
-    identification = models.CharField(max_length=10, verbose_name="Identificación", unique=True)
+    identification = models.BigIntegerField( verbose_name="Identificación", unique=True)
     paternalSurname = models.CharField(max_length=35, verbose_name="Apellido paterno")
     maternalSurname = models.CharField(max_length=35, verbose_name="Apellido materno")
     names = models.CharField(max_length=35, verbose_name="Nombres")

@@ -1,6 +1,6 @@
 from dataclasses import field
 from django import forms
-from .models import Book, Career, Course, Student
+from .models import Book, Career, Course, Student, Enrollment
 
 class BookForm(forms.ModelForm): 
     class Meta:
@@ -25,4 +25,13 @@ class StudentForm(forms.ModelForm):
             'dateBirth': forms.DateInput(attrs={'type': 'date'}),
             'sex': forms.Select(attrs={'class':'form-control'}),
             'career': forms.Select(attrs={'class':'form-control'})
+        }
+
+class EnrollmentForm(forms.ModelForm): 
+    class Meta: 
+        model = Enrollment
+        fields = '__all__'
+        widgets = {
+            'student': forms.Select(attrs={'class':'form-control'}),
+            'course': forms.Select(attrs={'class':'form-control'})
         }

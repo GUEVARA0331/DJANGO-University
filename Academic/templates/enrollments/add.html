@@ -1,27 +1,27 @@
 {% extends "layout.html" %} 
 
-{% block title %} Universidad | Estudiantes {% endblock %} 
+{% block title %} Universidad | Matriculas {% endblock %} 
 
 {% block header-page %} 
     <div class="col-sm-6">
-        <h1 class="m-0">Agregar Estudiante</h1>
+        <h1 class="m-0">Agregar Matricula</h1>
     </div><!-- /.col -->
     <div class="col-sm-6">
         <ol class="breadcrumb float-sm-right">
-        <li class="breadcrumb-item"><a href="{% url 'students' %}">Estudiantes</a></li>
-        <li class="breadcrumb-item active">Agregar Estudiante</li>
+        <li class="breadcrumb-item"><a href="{% url 'enrollments' %}">Matriculas</a></li>
+        <li class="breadcrumb-item active">Agregar Matricula</li>
         </ol>
     </div><!-- /.col -->
 {% endblock %} 
 
 {% block content %}     
-    <div class="col-6 mx-auto">
+    <div class="col-9 mx-auto">
         <div class="card card-info">
             <div class="card-header">
-              <h3 class="card-title fs-4">Datos del Estudiante</h3>
+              <h3 class="card-title fs-4">Datos de la Matricula</h3>
             </div>
             <div class="card-body">
-                {% include 'students/form.html' %}
+                {% include 'enrollments/form.html' %}
             </div> 
           </div> 
     </div>

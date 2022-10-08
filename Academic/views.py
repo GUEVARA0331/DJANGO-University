@@ -1,3 +1,4 @@
+from symbol import return_stmt
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.core.mail import send_mail
@@ -149,6 +150,15 @@ def addEnrollment(request):
         messages.success(request, 'Matricula registrada exitosamente.')
         return redirect('enrollments')
     return render(request, 'enrollments/add.html', {'form':form})
+
+def editEnrollment(request, id):  
+    enrollment = Enrollment.objects.get(id=id)
+    form = EnrollmentForm(request.POST or None, instance=enrollment)
+    if form.is_valid() and request.POST: 
+        form.save()
+        messages.success(request, 'Matricula actualizada exitosamente.')
+        return redirect('enrollments')
+    return render(request, 'enrollments/edit.html', {'form':form})
 
 def deleteEnrollment(request, id): 
     enrollment = Enrollment.objects.get(id=id)

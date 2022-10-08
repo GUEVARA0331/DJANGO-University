@@ -48,7 +48,7 @@
                           <td>{{ enrollment.course.professor }}</td>
                           <td>{{ enrollment.enrollmentDate }}</td>
                           <td class="text-center">
-                            <a href="#" type="button" class="btn btn-outline-warning btn-sm pt-0 pb-0 ps-1 pe-1"><i class="fas fa-edit me-1"></i>Editar</a>
+                            <a href="{% url 'editEnrollment' enrollment.id %}" type="button" class="btn btn-outline-warning btn-sm pt-0 pb-0 ps-1 pe-1"><i class="fas fa-edit me-1"></i>Editar</a>
                             <a href="{% url 'deleteEnrollment' enrollment.id %}" type="button" class="btn btn-outline-danger btn-sm pt-0 pb-0 ps-1 pe-1" id="btnDeleteEnrollment"><i class="fas fa-trash-alt me-1"></i>Eliminar</a>
                           </td>
                         </tr>

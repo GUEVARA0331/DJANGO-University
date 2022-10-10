@@ -85,6 +85,10 @@ def deleteCareer(request, id):
     messages.success(request, 'Carrera eliminada exitosamente')
     return redirect('careers')
 
+def consultCareer(request, name): 
+    careers = Career.objects.filter(name__icontains=name)
+    return render(request, 'careers/ajax/consult.html', {'careers':careers})
+
 def students(request): 
     students = Student.objects.all().order_by('-id')
     return render(request, 'students/index.html', {'students':students})

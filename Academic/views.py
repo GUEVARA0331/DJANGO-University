@@ -116,6 +116,10 @@ def deleteStudent(request, id):
     messages.success(request, 'Estudiante elimando exitosamente')
     return redirect('students')
 
+def consultStudent(request, identification): 
+    students = Student.objects.filter(identification__icontains=identification)
+    return render(request, 'students/ajax/consult.html', {'students':students})
+
 def courses(request): 
     courses = Course.objects.all().order_by('-id')
     return render(request, 'courses/index.html', {'courses':courses})

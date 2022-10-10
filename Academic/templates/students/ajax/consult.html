@@ -1,0 +1,41 @@
+{% if students %}
+  <table class="table">
+    <thead class="table-dark">
+      <tr>
+        <th>#</th>
+        <th>Identificación</th>
+        <th>Nombre</th>
+        <th>Carrera</th>
+        <th class="text-center">Sexo</th>
+        <th class="text-center">Vigencia</th>
+        <th class="text-center">Acciones</th>
+      </tr>
+    </thead>
+    <tbody">
+      {% for student in students %}
+        <tr>                          
+          <th>{{ forloop.counter }}</th>
+          <td>{{ student.identification }}</td>
+          <td>{{ student.paternalSurname }} {{ student.maternalSurname }} {{ student.names }}</td>
+          <td>{{ student.career.name }} ({{ student.career.code }})</td>
+          <td class="text-center">{{ student.sex }}</td>
+          <td class="text-center">
+            {% if student.validity %}
+                <b class="bg-success rounded-5 ps-2 pe-2" style="font-size: 12px;">ACTIVO</b>
+            {% else %}
+                <b class="bg-gradient-dark rounded-5 ps-2 pe-2" style="font-size: 12px;">INACTIVO</b>                               
+            {% endif %}
+          </td>
+          <td class="text-center">
+            <a href="{% url 'editStudent' student.id %}" type="button" class="btn btn-outline-warning btn-sm pt-0 pb-0 ps-1 pe-1"><i class="fas fa-edit me-1"></i>Editar</a>
+            <a href="{% url 'deleteStudent' student.id %}" type="button" class="btn btn-outline-danger btn-sm  pt-0 pb-0 ps-1 pe-1" id="btnDeleteStudent"><i class="fas fa-trash-alt me-1"></i>Eliminar</a>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% else %}
+  <h5 class="text-center">
+    No se encontrón nungún resultado
+  </h5>
+{% endif %}

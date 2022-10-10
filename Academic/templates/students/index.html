@@ -22,47 +22,60 @@
               <h3 class="m-0">Listado de Estudiantes Registrados</h3>
             </div>
             <div class="col-auto">
-              <a href="{% url 'addStudent' %}" class="btn btn-primary">Agregar Nuevo Estudiante</a>
+              <div class="input-group">
+                <input type="number" name="ideSearch" id="ideSearch" class="form-control form-control-md" placeholder="Identificación">
+                <div class="input-group-append">
+                  <button class="btn btn-md btn-success" id="btnSearchStudent">
+                    <i class="fa fa-search"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="col-auto">
+              <a href="{% url 'addStudent' %}" class="btn btn-primary">
+                <i class="fas fa-plus-circle me-1"></i>
+                Agregar
+              </a>
             </div>
           </div>    
         </div>
         <div class="card-body">
-            <div class="table table-responsive rounded-3">
+            <div class="table table-responsive rounded-3" id="tableStudent">
                 <table class="table">
-                    <thead class="table-dark">
-                      <tr>
-                        <th>#</th>
-                        <th>Identificación</th>
-                        <th>Nombre</th>
-                        <th>Carrera</th>
-                        <th class="text-center">Sexo</th>
-                        <th class="text-center">Vigencia</th>
-                        <th class="text-center">Acciones</th>
+                  <thead class="table-dark">
+                    <tr>
+                      <th>#</th>
+                      <th>Identificación</th>
+                      <th>Nombre</th>
+                      <th>Carrera</th>
+                      <th class="text-center">Sexo</th>
+                      <th class="text-center">Vigencia</th>
+                      <th class="text-center">Acciones</th>
+                    </tr>
+                  </thead>
+                  <tbody">
+                    {% for student in students %}
+                      <tr>                          
+                        <th>{{ forloop.counter }}</th>
+                        <td>{{ student.identification }}</td>
+                        <td>{{ student.paternalSurname }} {{ student.maternalSurname }} {{ student.names }}</td>
+                        <td>{{ student.career.name }} ({{ student.career.code }})</td>
+                        <td class="text-center">{{ student.sex }}</td>
+                        <td class="text-center">
+                          {% if student.validity %}
+                              <b class="bg-success rounded-5 ps-2 pe-2" style="font-size: 12px;">ACTIVO</b>
+                          {% else %}
+                              <b class="bg-gradient-dark rounded-5 ps-2 pe-2" style="font-size: 12px;">INACTIVO</b>                               
+                          {% endif %}
+                        </td>
+                        <td class="text-center">
+                          <a href="{% url 'editStudent' student.id %}" type="button" class="btn btn-outline-warning btn-sm pt-0 pb-0 ps-1 pe-1"><i class="fas fa-edit me-1"></i>Editar</a>
+                          <a href="{% url 'deleteStudent' student.id %}" type="button" class="btn btn-outline-danger btn-sm  pt-0 pb-0 ps-1 pe-1" id="btnDeleteStudent"><i class="fas fa-trash-alt me-1"></i>Eliminar</a>
+                        </td>
                       </tr>
-                    </thead>
-                    <tbody">
-                      {% for student in students %}
-                        <tr>                          
-                          <th>{{ forloop.counter }}</th>
-                          <td>{{ student.identification }}</td>
-                          <td>{{ student.paternalSurname }} {{ student.maternalSurname }} {{ student.names }}</td>
-                          <td>{{ student.career.name }} ({{ student.career.code }})</td>
-                          <td class="text-center">{{ student.sex }}</td>
-                          <td class="text-center">
-                            {% if student.validity %}
-                                <b class="bg-success rounded-5 ps-2 pe-2" style="font-size: 12px;">ACTIVO</b>
-                            {% else %}
-                                <b class="bg-gradient-dark rounded-5 ps-2 pe-2" style="font-size: 12px;">INACTIVO</b>                               
-                            {% endif %}
-                          </td>
-                          <td class="text-center">
-                            <a href="{% url 'editStudent' student.id %}" type="button" class="btn btn-outline-warning btn-sm pt-0 pb-0 ps-1 pe-1"><i class="fas fa-edit me-1"></i>Editar</a>
-                            <a href="{% url 'deleteStudent' student.id %}" type="button" class="btn btn-outline-danger btn-sm  pt-0 pb-0 ps-1 pe-1" id="btnDeleteStudent"><i class="fas fa-trash-alt me-1"></i>Eliminar</a>
-                          </td>
-                        </tr>
-                      {% endfor %}
-                    </tbody>
-                  </table>
+                    {% endfor %}
+                  </tbody>
+                </table>
             </div>
         </div>
     </div>
@@ -90,6 +103,27 @@
         allowEscapeKey: () => false, 
       });  
     });
+  });
+
+  $(document).on("click", "#btnSearchStudent", function() {
+    identification = $('#ideSearch').val();
+    if(identification == ''){
+      location.reload();
+    }else{
+      $.ajaxSetup({
+        headers:     {
+            'X-CSRF-TOKE': $('meta[name="csrf-token"]').attr('content')
+        }
+      });
+      $.ajax({
+          method: "get",
+          url: 'http://127.0.0.1:8000/Academic/student/consult/'+identification,
+          data: {}
+      })
+      .done(function(html){
+          $("#tableStudent").html(html);
+      });
+    }        
   });
 </script>
 {% endblock %}

@@ -1,26 +1,32 @@
-<table class="table">
-    <thead class="table-dark">
-        <tr>
-        <th>#</th>
-        <th>Código</th>
-        <th>Nombre</th>
-        <th>Duración</th>
-        <th class="text-center">Acciones</th>
-        </tr>
-    </thead>
-    <tbody">
-        {% for career in careers %}
-        <tr>                          
-            <th>{{ forloop.counter }}</th>
-            <td>{{ career.code }}</td>
-            <td>{{ career.name }}</td>
-            <td>{{ career.duration }} {% if career.duration == 1  %} año {% else %} años {% endif %}
-            </td>   
-            <td class="text-center">
-            <a href="{% url 'editCareer' career.id %}" type="button" class="btn btn-outline-warning btn-sm py-0 px-1"><i class="fas fa-edit"></i>Editar</a>
-            <a href="{% url 'deleteCareer' career.id %}" type="button" class="btn btn-outline-danger btn-sm py-0 px-1" id="btnDeleteCareer"><i class="fas fa-trash-alt"></i>Eliminar</a>
-            </td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
+{% if careers %}
+    <table class="table">
+        <thead class="table-dark">
+            <tr>
+            <th>#</th>
+            <th>Código</th>
+            <th>Nombre</th>
+            <th>Duración</th>
+            <th class="text-center">Acciones</th>
+            </tr>
+        </thead>
+        <tbody">
+            {% for career in careers %}
+            <tr>                          
+                <th>{{ forloop.counter }}</th>
+                <td>{{ career.code }}</td>
+                <td>{{ career.name }}</td>
+                <td>{{ career.duration }} {% if career.duration == 1  %} año {% else %} años {% endif %}
+                </td>   
+                <td class="text-center">
+                <a href="{% url 'editCareer' career.id %}" type="button" class="btn btn-outline-warning btn-sm py-0 px-1"><i class="fas fa-edit"></i>Editar</a>
+                <a href="{% url 'deleteCareer' career.id %}" type="button" class="btn btn-outline-danger btn-sm py-0 px-1" id="btnDeleteCareer"><i class="fas fa-trash-alt"></i>Eliminar</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+  <h5 class="text-center">
+    No se encontrón nungún resultado
+  </h5>
+{% endif %}

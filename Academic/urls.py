@@ -33,6 +33,7 @@ urlpatterns = [
     path('course/edit', views.editCourse, name='editCourse'),
     path('course/edit/<int:id>', views.editCourse, name='editCourse'),
     path('course/delete/<int:id>', views.deleteCourse, name='deleteCourse'),
+    path('course/consult/<name>', views.consultCourse, name='consultCourse'),
 
     path('enrollments', views.enrollments, name='enrollments'),
     path('enrollment/add', views.addEnrollment, name='addEnrollment'),

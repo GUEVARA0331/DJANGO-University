@@ -143,6 +143,10 @@ def deleteCourse(request, id):
     messages.success(request, 'Curso eliminado exitosamente.')
     return redirect('courses')
 
+def consultCourse(request, name): 
+    courses = Course.objects.filter(name__icontains=name)
+    return render(request, 'courses/ajax/consult.html', {'courses':courses})
+
 def enrollments(request): 
     enrollments = Enrollment.objects.all().order_by('-id')
     return render(request, 'enrollments/index.html', {'enrollments':enrollments})

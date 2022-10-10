@@ -49,6 +49,10 @@ def deleteBook(request, id):
     messages.success(request, 'Libro eliminado exitosamente.')
     return redirect('books')
 
+def consultBook(request, title): 
+    books = Book.objects.filter(title__icontains=title)
+    return render(request, 'books/ajax/consult.html', {'books':books})
+
 def editBook(request, id): 
     book = Book.objects.get(id=id)
     form = BookForm(request.POST or None, request.FILES or None, instance=book)

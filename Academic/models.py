@@ -64,7 +64,7 @@ class Course(models.Model):
 
 class Enrollment(models.Model): 
     id = models.AutoField(primary_key=True)
-    student = models.ForeignKey(Student, null=False, blank=False, on_delete=models.CASCADE, verbose_name="Estudiante")
+    student = models.ForeignKey(Student, null=False, blank=False, on_delete=models.CASCADE, verbose_name="Estudiante", related_name='student')
     course = models.ForeignKey(Course, null=False, blank=False, on_delete=models.CASCADE, verbose_name="Curso")
     enrollmentDate = models.DateTimeField(auto_now_add=True, verbose_name="Fecha de matriculación")
 

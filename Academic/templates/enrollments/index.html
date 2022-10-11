@@ -22,39 +22,54 @@
               <h3 class="m-0">Listado de Matriculas Registradas</h3>
             </div>
             <div class="col-auto">
-              <a href="{% url 'addEnrollment' %}" class="btn btn-primary">Agregar Nueva Matricula</a>
+              <div class="input-group">
+                <input type="number" class="form-control form-control-md" placeholder="Identificación" name="ideSearch" id="ideSearch">
+                <div class="input-group-append">
+                    <button type="button" class="btn btn-md btn-success" id="btnSearchEnrollment">
+                        <i class="fa fa-search"></i>
+                    </button>
+                </div>
+              </div>
+            </div>
+            <div class="col-auto">
+              <a href="{% url 'addEnrollment' %}" class="btn btn-primary">
+                <i class="fas fa-plus-circle me-1"></i>
+                Agregar
+              </a>
             </div>
           </div>    
         </div>
         <div class="card-body">
-            <div class="table table-responsive rounded-3">
-                <table class="table">
-                    <thead class="table-dark">
-                      <tr>
-                        <th>#</th>
-                        <th>Estudiante</th>
-                        <th>Curso</th>
-                        <th>Docente</th>
-                        <th>Inscripción</th>
-                        <th class="text-center">Acciones</th>
-                      </tr>
-                    </thead>
-                    <tbody">
-                      {% for enrollment in enrollments %}
-                        <tr>                          
-                          <th>{{ forloop.counter }}</th>
-                          <td>{{ enrollment.student.paternalSurname }} {{ enrollment.student.maternalSurname }} {{ enrollment.student.names }}</td>
-                          <td>{{ enrollment.course.name }} ({{ enrollment.course.code }})</td>
-                          <td>{{ enrollment.course.professor }}</td>
-                          <td>{{ enrollment.enrollmentDate }}</td>
-                          <td class="text-center">
-                            <a href="{% url 'editEnrollment' enrollment.id %}" type="button" class="btn btn-outline-warning btn-sm pt-0 pb-0 ps-1 pe-1"><i class="fas fa-edit me-1"></i>Editar</a>
-                            <a href="{% url 'deleteEnrollment' enrollment.id %}" type="button" class="btn btn-outline-danger btn-sm pt-0 pb-0 ps-1 pe-1" id="btnDeleteEnrollment"><i class="fas fa-trash-alt me-1"></i>Eliminar</a>
-                          </td>
-                        </tr>
-                      {% endfor %}
-                    </tbody>
-                  </table>
+            <div class="table table-responsive rounded-3" id="tableEnrollments">
+              <table class="table">
+                <thead class="table-dark">
+                  <tr>
+                    <th>#</th>
+                    <th>Identificación</th>
+                    <th>Estudiante</th>
+                    <th>Curso</th>
+                    <th>Docente</th>
+                    <th>Inscripción</th>
+                    <th class="text-center">Acciones</th>
+                  </tr>
+                </thead>
+                <tbody">
+                  {% for enrollment in enrollments %}
+                    <tr>                          
+                      <th>{{ forloop.counter }}</th>
+                      <td>{{ enrollment.student.identification }}</td>
+                      <td>{{ enrollment.student.paternalSurname }} {{ enrollment.student.maternalSurname }} {{ enrollment.student.names }}</td>
+                      <td>{{ enrollment.course.name }} ({{ enrollment.course.code }})</td>
+                      <td>{{ enrollment.course.professor }}</td>
+                      <td>{{ enrollment.enrollmentDate | date:"d/M/Y" }}</td>
+                      <td class="text-center">
+                        <a href="{% url 'editEnrollment' enrollment.id %}" type="button" class="btn btn-outline-warning btn-sm pt-0 pb-0 ps-1 pe-1"><i class="fas fa-edit me-1"></i>Editar</a>
+                        <a href="{% url 'deleteEnrollment' enrollment.id %}" type="button" class="btn btn-outline-danger btn-sm pt-0 pb-0 ps-1 pe-1" id="btnDeleteEnrollment"><i class="fas fa-trash-alt me-1"></i>Eliminar</a>
+                      </td>
+                    </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
             </div>
         </div>
     </div>
@@ -81,6 +96,27 @@
         allowEscapeKey: () => false, 
       });  
     });
+  });
+
+  $(document).on("click", "#btnSearchEnrollment", function() {
+    identification = $('#ideSearch').val();
+    if(identification == ''){
+      location.reload();
+    }else{
+      $.ajaxSetup({
+        headers:     {
+            'X-CSRF-TOKE': $('meta[name="csrf-token"]').attr('content')
+        }
+      });
+      $.ajax({
+          method: "get",
+          url: 'http://127.0.0.1:8000/Academic/enrollment/consult/'+identification,
+          data: {}
+      })
+      .done(function(html){
+          $("#tableEnrollments").html(html);
+      });
+    }        
   });
 </script>
 {% endblock %}

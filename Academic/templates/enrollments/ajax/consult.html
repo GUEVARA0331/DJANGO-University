@@ -1,0 +1,36 @@
+{% if enrollments %}
+    <table class="table">
+        <thead class="table-dark">
+        <tr>
+            <th>#</th>
+            <th>Identificación</th>
+            <th>Estudiante</th>
+            <th>Curso</th>
+            <th>Docente</th>
+            <th>Inscripción</th>
+            <th class="text-center">Acciones</th>
+        </tr>
+        </thead>
+        <tbody">
+        {% for enrollment in enrollments %}
+            <tr>                          
+                <th>{{ forloop.counter }}</th>
+                <td>{{ enrollment.student.identification }}</td>
+                <td>{{ enrollment.student.paternalSurname }} {{ enrollment.student.maternalSurname }} {{ enrollment.student.names }}</td>
+                <td>{{ enrollment.course.name }} ({{ enrollment.course.code }})</td>
+                <td>{{ enrollment.course.professor }}</td>
+                <td>{{ enrollment.enrollmentDate }}</td>
+                <td class="text-center">
+                <a href="{% url 'editEnrollment' enrollment.id %}" type="button" class="btn btn-outline-warning btn-sm pt-0 pb-0 ps-1 pe-1"><i class="fas fa-edit me-1"></i>Editar</a>
+                <a href="{% url 'deleteEnrollment' enrollment.id %}" type="button" class="btn btn-outline-danger btn-sm pt-0 pb-0 ps-1 pe-1" id="btnDeleteEnrollment"><i class="fas fa-trash-alt me-1"></i>Eliminar</a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <h5 class="text-center">
+        No se encontrón nungún resultado
+    </h5>
+{% endif %}
+    

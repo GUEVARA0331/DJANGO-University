@@ -42,5 +42,6 @@ urlpatterns = [
     path('enrollmente/edit', views.editEnrollment, name='editEnrollment'),
     path('enrollmente/edit/<int:id>', views.editEnrollment, name='editEnrollment'),
     path('enrollment/delete/<int:id>', views.deleteEnrollment, name='deleteEnrollment'),
+    path('enrollment/consult/<identification>', views.consultEnrollments, name='consultEnrollments'),
 
 ]+static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -8,6 +8,7 @@ from socket import gaierror
 from .models import Book, Career, Student, Course, Enrollment
 from .forms import BookForm, CareerForm, CourseForm, StudentForm, EnrollmentForm
 from django.conf import settings 
+from django.db.models import Prefetch
 
 # Create your views here.
 def home(request):
@@ -181,6 +182,11 @@ def deleteEnrollment(request, id):
     enrollment.delete()
     messages.success(request, 'Matricula eliminada exitosamente.')
     return redirect('enrollments')
+
+def consultEnrollments(request, identification): 
+    enrollments = Enrollment.objects.all().prefetch_related(Prefetch('student', queryset=Student.objects.filter(identification__icontains=identification))).filter(student__identification__icontains=identification)
+    return render(request, 'enrollments/ajax/consult.html', {'enrollments':enrollments})
+    
 
 
 

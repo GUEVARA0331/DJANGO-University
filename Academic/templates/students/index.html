@@ -40,7 +40,7 @@
           </div>    
         </div>
         <div class="card-body">
-            <div class="table table-responsive rounded-3" id="tableStudent">
+            <div class="table table-responsive rounded-3" id="tableStudents">
                 <table class="table">
                   <thead class="table-dark">
                     <tr>
@@ -83,6 +83,7 @@
 
 {% block scripts %}
 <script>
+  $("#ideSearch").focus(); 
   const btnsDelete = document.querySelectorAll("#btnDeleteStudent")
   btnsDelete.forEach((btn) => {
     btn.addEventListener("click", function (e) {
@@ -105,25 +106,45 @@
     });
   });
 
-  $(document).on("click", "#btnSearchStudent", function() {
-    identification = $('#ideSearch').val();
-    if(identification == ''){
+  $("#ideSearch").on("input", function() { // Reload the page when the browser is empty. 
+    if (this.value == '') { 
       location.reload();
-    }else{
-      $.ajaxSetup({
-        headers:     {
-            'X-CSRF-TOKE': $('meta[name="csrf-token"]').attr('content')
-        }
-      });
-      $.ajax({
-          method: "get",
-          url: 'http://127.0.0.1:8000/Academic/student/consult/'+identification,
-          data: {}
-      })
-      .done(function(html){
-          $("#tableStudent").html(html);
-      });
-    }        
+    }
   });
+
+  $(document).ready(function(){ // Execute the consult automatically when the ENTER key is pressed in the browser
+    $("#ideSearch").keypress(function(e) {
+        var code = (e.keyCode ? e.keyCode : e.which);
+        if(code==13){
+          identification = $('#ideSearch').val();
+          if(identification != ''){
+            consultAjax();
+          }
+        }
+    });
+  });
+
+  $(document).on("click", "#btnSearchStudent", function() { // Execute the consult when the search button is pressed
+    identification = $('#ideSearch').val();
+    if(identification != ''){
+      consultAjax();
+    }
+  });
+
+  function consultAjax(){
+    $.ajaxSetup({
+      headers:     {
+          'X-CSRF-TOKE': $('meta[name="csrf-token"]').attr('content')
+      }
+    });
+    $.ajax({
+        method: "get",
+        url: 'http://127.0.0.1:8000/Academic/student/consult/'+identification,
+        data: {}
+    })
+    .done(function(html){
+        $("#tableStudents").html(html);
+    });
+  }
 </script>
 {% endblock %}

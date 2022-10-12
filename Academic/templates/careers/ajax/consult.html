@@ -5,7 +5,8 @@
             <th>#</th>
             <th>Código</th>
             <th>Nombre</th>
-            <th>Duración</th>
+            <th class="text-center">Estudiantes</th>
+            <th class="text-center">Duración</th>
             <th class="text-center">Acciones</th>
             </tr>
         </thead>
@@ -15,6 +16,7 @@
                 <th>{{ forloop.counter }}</th>
                 <td>{{ career.code }}</td>
                 <td>{{ career.name }}</td>
+                <td class="text-center">{{ career.students }}</td>
                 <td>{{ career.duration }} {% if career.duration == 1  %} año {% else %} años {% endif %}
                 </td>   
                 <td class="text-center">

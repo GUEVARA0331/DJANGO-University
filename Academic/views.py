@@ -8,7 +8,7 @@ from socket import gaierror
 from .models import Book, Career, Student, Course, Enrollment
 from .forms import BookForm, CareerForm, CourseForm, StudentForm, EnrollmentForm
 from django.conf import settings 
-from django.db.models import Prefetch
+from django.db.models import Prefetch, Count
 
 # Create your views here.
 def home(request):
@@ -64,7 +64,7 @@ def editBook(request, id):
     return render(request, 'books/edit.html', {'form':form,'book':book})
 
 def careers(request): 
-    careers = Career.objects.all().order_by('-id')
+    careers = Career.objects.all().annotate(students=Count('student')).order_by('-id')
     return render(request, 'careers/index.html', {'careers':careers})
 
 def addCareer(request): 
@@ -91,7 +91,7 @@ def deleteCareer(request, id):
     return redirect('careers')
 
 def consultCareer(request, name): 
-    careers = Career.objects.filter(name__icontains=name)
+    careers = Career.objects.filter(name__icontains=name).annotate(students=Count('student'))
     return render(request, 'careers/ajax/consult.html', {'careers':careers})
 
 def students(request): 

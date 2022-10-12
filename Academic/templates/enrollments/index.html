@@ -77,6 +77,7 @@
 
 {% block scripts %}
 <script>
+  $("#ideSearch").focus(); 
   const btnsDelete = document.querySelectorAll("#btnDeleteEnrollment")
   btnsDelete.forEach((btn) => {
     btn.addEventListener("click", function (e) {
@@ -98,12 +99,33 @@
     });
   });
 
-  $(document).on("click", "#btnSearchEnrollment", function() {
-    identification = $('#ideSearch').val();
-    if(identification == ''){
+  $("#ideSearch").on("input", function() { // Reload the page when the browser is empty. 
+    if (this.value == '') { 
       location.reload();
-    }else{
-      $.ajaxSetup({
+    }
+  });
+
+  $(document).ready(function(){ // Execute the consult automatically when the ENTER key is pressed in the browser
+    $("#ideSearch").keypress(function(e) {
+        var code = (e.keyCode ? e.keyCode : e.which);
+        if(code==13){
+          identification = $('#ideSearch').val();
+          if(identification != ''){
+            consultAjax();
+          }
+        }
+    });
+  });
+
+  $(document).on("click", "#btnSearchEnrollment", function() { // Execute the consult when the search button is pressed
+    identification = $('#ideSearch').val();
+    if(identification != ''){
+      consultAjax();
+    }
+  });
+
+  function consultAjax(){  // Function to check studente enrollment by ajax.
+    $.ajaxSetup({
         headers:     {
             'X-CSRF-TOKE': $('meta[name="csrf-token"]').attr('content')
         }
@@ -116,7 +138,6 @@
       .done(function(html){
           $("#tableEnrollments").html(html);
       });
-    }        
-  });
+  };
 </script>
 {% endblock %}

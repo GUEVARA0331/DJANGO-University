@@ -73,6 +73,7 @@
 
 {% block scripts %}
   <script>
+    $("#titleSearch").focus();
     const btnsDelete = document.querySelectorAll("#btnDeleteBook")
     btnsDelete.forEach((btn) => {
       btn.addEventListener("click", function (e) {
@@ -94,25 +95,45 @@
       });
     });
 
-    $(document).on("click", "#btnSearchBook", function() {
-      title = $('#titleSearch').val();
-      if(title == ''){
+    $("#titleSearch").on("input", function() { // Reload the page when the browser is empty. 
+      if (this.value == '') { 
         location.reload();
-      }else{
-        $.ajaxSetup({
-          headers:     {
-              'X-CSRF-TOKE': $('meta[name="csrf-token"]').attr('content')
+      }
+    });
+
+    $(document).ready(function(){ // Execute the consult automatically when the ENTER key is pressed in the browser
+      $("#titleSearch").keypress(function(e) {
+          var code = (e.keyCode ? e.keyCode : e.which);
+          if(code==13){
+            title = $('#titleSearch').val();
+            if(title != ''){
+              consultAjax();
+            }
           }
-        });
-        $.ajax({
-            method: "get",
-            url: 'http://127.0.0.1:8000/Academic/book/consult/'+title,
-            data: {}
-        })
-        .done(function(html){
-            $("#tableBooks").html(html);
-        });
-      }        
-    });    
+      });
+    });
+
+    $(document).on("click", "#btnSearchBook", function() { // Execute the consult when the search button is pressed
+      title = $('#titleSearch').val();
+      if(title != ''){
+        consultAjax();
+      }
+    });
+
+    function consultAjax(){
+      $.ajaxSetup({
+        headers:     {
+            'X-CSRF-TOKE': $('meta[name="csrf-token"]').attr('content')
+        }
+      });
+      $.ajax({
+          method: "get",
+          url: 'http://127.0.0.1:8000/Academic/book/consult/'+title,
+          data: {}
+      })
+      .done(function(html){
+          $("#tableBooks").html(html);
+      });
+    };
 </script>
 {% endblock %}

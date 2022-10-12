@@ -126,18 +126,18 @@
 
   function consultAjax(){  // Function to check studente enrollment by ajax.
     $.ajaxSetup({
-        headers:     {
-            'X-CSRF-TOKE': $('meta[name="csrf-token"]').attr('content')
-        }
-      });
-      $.ajax({
-          method: "get",
-          url: 'http://127.0.0.1:8000/Academic/enrollment/consult/'+identification,
-          data: {}
-      })
-      .done(function(html){
-          $("#tableEnrollments").html(html);
-      });
+      headers:     {
+          'X-CSRF-TOKE': $('meta[name="csrf-token"]').attr('content')
+      }
+    });
+    $.ajax({
+        method: "get",
+        url: 'http://127.0.0.1:8000/Academic/enrollment/consult/'+identification,
+        data: {}
+    })
+    .done(function(html){
+        $("#tableEnrollments").html(html);
+    });
   };
 </script>
 {% endblock %}

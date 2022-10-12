@@ -40,7 +40,7 @@
             </div>    
           </div>
           <div class="card-body">
-              <div class="table table-responsive rounded-3" id="tableCarrer">
+              <div class="table table-responsive rounded-3" id="tableCarrers">
                   <table class="table">
                     <thead class="table-dark">
                       <tr>
@@ -74,6 +74,7 @@
 
   {% block scripts %}
     <script>
+      $("#nameSearch").focus(); 
       const btnsDelete = document.querySelectorAll("#btnDeleteCareer")
       btnsDelete.forEach((btn) => {
         btn.addEventListener("click", function (e) {
@@ -96,25 +97,45 @@
         });
       });
 
-      $(document).on("click", "#btnSearchCareer", function() {
-        name = $('#nameSearch').val();
-        if(name == ''){
+      $("#nameSearch").on("input", function() { // Reload the page when the browser is empty. 
+        if (this.value == '') { 
           location.reload();
-        }else{
-          $.ajaxSetup({
-            headers:     {
-                'X-CSRF-TOKE': $('meta[name="csrf-token"]').attr('content')
-            }
-          });
-          $.ajax({
-              method: "get",
-              url: 'http://127.0.0.1:8000/Academic/career/consult/'+name,
-              data: {}
-          })
-          .done(function(html){
-              $("#tableCarrer").html(html);
-          });
-        }        
+        }
       });
+
+      $(document).ready(function(){ // Execute the consult automatically when the ENTER key is pressed in the browser
+        $("#nameSearch").keypress(function(e) {
+            var code = (e.keyCode ? e.keyCode : e.which);
+            if(code==13){
+              name = $('#nameSearch').val();
+              if(name != ''){
+                consultAjax();
+              }
+            }
+        });
+      });
+
+      $(document).on("click", "#btnSearchCareer", function() { // Execute the consult when the search button is pressed
+        name = $('#nameSearch').val();
+        if(name != ''){
+          consultAjax();
+        }
+      });
+
+      function consultAjax(){
+        $.ajaxSetup({
+          headers:     {
+              'X-CSRF-TOKE': $('meta[name="csrf-token"]').attr('content')
+          }
+        });
+        $.ajax({
+            method: "get",
+            url: 'http://127.0.0.1:8000/Academic/career/consult/'+name,
+            data: {}
+        })
+        .done(function(html){
+            $("#tableCarrers").html(html);
+        });
+      }
     </script>
   {% endblock %}

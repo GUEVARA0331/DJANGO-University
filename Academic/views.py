@@ -126,7 +126,7 @@ def consultStudent(request, identification):
     return render(request, 'students/ajax/consult.html', {'students':students})
 
 def courses(request): 
-    courses = Course.objects.all().order_by('-id')
+    courses = Course.objects.all().annotate(enrollments=Count('enrollment')).order_by('-id')
     return render(request, 'courses/index.html', {'courses':courses})
 
 def addCourse(request): 
@@ -153,7 +153,7 @@ def deleteCourse(request, id):
     return redirect('courses')
 
 def consultCourse(request, name): 
-    courses = Course.objects.filter(name__icontains=name)
+    courses = Course.objects.filter(name__icontains=name).annotate(enrollments=Count('enrollment'))
     return render(request, 'courses/ajax/consult.html', {'courses':courses})
 
 def enrollments(request): 

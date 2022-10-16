@@ -1,4 +1,4 @@
-from symbol import return_stmt
+import os
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.core.mail import send_mail
@@ -58,6 +58,12 @@ def editBook(request, id):
     book = Book.objects.get(id=id)
     form = BookForm(request.POST or None, request.FILES or None, instance=book)
     if form.is_valid() and request.POST:
+        """ 
+            if len(request.FILES) != 0:
+            if len(book.image) > 0:
+                oldBook = Book.objects.get(id=id)
+                os.remove(oldBook.image.name) 
+        """
         form.save()
         messages.success(request, 'Libro actualizado exitosamente.')
         return redirect('books')

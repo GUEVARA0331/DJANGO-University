@@ -1,7 +1,3 @@
-from email.policy import default
-from enum import unique
-from random import choices
-from weakref import proxy
 from django.db import models
 
 # Create your models here.
@@ -98,5 +94,15 @@ class Book(models.Model):
     def delete(self, using=None, keep_parents=False): 
         self.image.storage.delete(self.image.name)
         super().delete()
+
+    """     
+        To update the image we have to do: 
+        Terminal: pip install django-cleanup
+        Add django_cleanup to the bottom of INSTALLED_APPS in settings.py
+            INSTALLED_APPS = (
+                ...,
+                'django_cleanup.apps.CleanupConfig',
+            )
+    """
 
 

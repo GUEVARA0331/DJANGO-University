@@ -2,7 +2,7 @@ from django.urls import path
 from . import views
 from django.conf import settings 
 from django.contrib.staticfiles.urls import static
-from .views import ExportPDFCareers
+from .views import ExportPDFCareers, ExportPDFCourses
 
 urlpatterns = [
     path('', views.home, name='home'),
@@ -38,6 +38,7 @@ urlpatterns = [
     path('course/edit/<int:id>', views.editCourse, name='editCourse'),
     path('course/delete/<int:id>', views.deleteCourse, name='deleteCourse'),
     path('course/consult/<name>', views.consultCourse, name='consultCourse'),
+    path('course/report', ExportPDFCourses.as_view(), name='reporCourses'),
 
     path('enrollments', views.enrollments, name='enrollments'),
     path('enrollment/add', views.addEnrollment, name='addEnrollment'),

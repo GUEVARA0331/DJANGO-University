@@ -1,0 +1,66 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Universidad | Carreras</title>    
+
+    <style>
+        h1 {
+            text-align: center;
+            margin-bottom: 0px; 
+            font-size: 20px;
+        }
+        table {
+            border: black 1px solid;
+            font-size: 12px;
+        }
+        thead th {
+            background: black; 
+            color: #fff; 
+            padding-top: 3px; 
+        }
+        tbody th, td {
+            padding: 3px;
+            padding-bottom: 0px;
+        }
+        .name {
+            width: 50%;
+        }
+        .data {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h1>Reporte de Carreras de la Universidad</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Código</th>
+                <th class="name">Nombre</th>
+                <th>Estudiantes</th>
+                <th>Duración</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for career in careers %}
+                <tr>
+                    <th>{{ forloop.counter }}</th>
+                    <td class="data">{{ career.code }}</td>
+                    <td>{{ career.name }}</td>
+                    <td class="data">{{ career.students }}</td>
+                    <td class="data">{{ career.duration }} {% if career.duration == 1 %} año {% else %} años {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
+
+
+

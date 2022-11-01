@@ -8,7 +8,6 @@ from smtplib import SMTPAuthenticationError
 from socket import gaierror
 from .models import Book, Career, Student, Course, Enrollment
 from .forms import BookForm, CareerForm, CourseForm, StudentForm, EnrollmentForm
-from django.conf import settings 
 from django.db.models import Prefetch, Count
 
 """ Imports to pdf """
@@ -78,6 +77,29 @@ def editBook(request, id):
         messages.success(request, 'Libro actualizado exitosamente.')
         return redirect('books')
     return render(request, 'books/edit.html', {'form':form,'book':book})
+
+def books_render_pdf_view(request):
+    template_path = 'books/report.html'
+    context = {
+        'books': Book.  objects.all().order_by('title'),
+    }
+    # Create a Django response object, and specify content_type as pdf
+    response = HttpResponse(content_type='application/pdf')
+    # id download:
+    # response['Content-Disposition'] = 'attachment; filename="books.pdf"'
+    # if display: 
+    response['Content-Disposition'] = 'filename="books.pdf"'
+    # find the template and render it.
+    template = get_template(template_path)
+    html = template.render(context)
+
+    # create a pdf
+    pisa_status = pisa.CreatePDF(
+       html, dest=response)
+    # if error then show some funny view
+    if pisa_status.err:
+       return HttpResponse('We had some errors <pre>' + html + '</pre>')
+    return response
 
 def careers(request): 
     careers = Career.objects.all().annotate(students=Count('student')).order_by('-id')
@@ -181,6 +203,10 @@ def deleteStudent(request, id):
     messages.success(request, 'Estudiante elimando exitosamente')
     return redirect('students')
 
+def consultStudent(request, identification): 
+    students = Student.objects.filter(identification__icontains=identification)
+    return render(request, 'students/ajax/consult.html', {'students':students})
+
 class ExportPDFStudents(View): 
     def link_callback(self, uri, rel, type):
         """
@@ -224,10 +250,6 @@ class ExportPDFStudents(View):
         if pisaStatus.err:
             return HttpResponse('Se ha presentado un error al genera el reporte.')
         return response
-
-def consultStudent(request, identification): 
-    students = Student.objects.filter(identification__icontains=identification)
-    return render(request, 'students/ajax/consult.html', {'students':students})
 
 def courses(request): 
     courses = Course.objects.all().annotate(enrollments=Count('enrollment')).order_by('-id')

@@ -37,6 +37,9 @@
                 Agregar
               </a>
             </div>
+            <div class="col-auto">
+              <a href="{% url 'reportBooks' %}" class="fas fa-file-pdf fa-2x fa-danger" style="margin-top: 3px; color: red;" title="Generar PDF"></a>
+            </div>
           </div>    
         </div>
         <div class="card-body">
@@ -56,7 +59,9 @@
                     <tr>                          
                       <th>{{ forloop.counter }}</th>
                       <td>{{ book.title }}</td>
-                      <td><img src="{{ MEDIA_URL }}/Academic/images/{{ book.image }}" alt="" height="100"></td>
+                      <td>
+                        <img src="/Academic/images/{{ book.image }}" alt="" height="100">
+                      </td>
                       <td>{{ book.description }}</td>
                       <td class="text-center">
                         <a href="{% url 'editBook' book.id %}" type="button" class="btn btn-outline-warning btn-sm py-0 px-1 mb-1"><i class="fas fa-edit me-1"></i>Editar</a><br>

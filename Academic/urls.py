@@ -5,6 +5,7 @@ from django.contrib.staticfiles.urls import static
 from .views import ExportPDFCareers, ExportPDFCourses, ExportPDFStudents
 
 urlpatterns = [
+    path('', views.home, name=''),
     path('', views.home, name='home'),
 
     path('contact', views.contact, name='contact'),
@@ -16,6 +17,7 @@ urlpatterns = [
     path('book/edit', views.editBook, name='editBook'),
     path('book/edit/<int:id>', views.editBook, name='editBook'),
     path('book/consult/<title>', views.consultBook, name='consultBook'),
+    path('book/report', views.books_render_pdf_view, name='reportBooks'),
 
     path('careers', views.careers, name='careers'),
     path('career/add', views.addCareer, name='addCareer'),

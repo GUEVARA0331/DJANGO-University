@@ -1,0 +1,77 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Universidad | Matrículas</title>    
+
+    <style>        
+        /* @page {
+            size: letter portrait;
+            margin: 1cm; 
+        } */
+        h1 {
+            text-align: center;
+            margin-bottom: 0px; 
+            font-size: 20px;
+        }
+        table {
+            border: black 1px solid;
+            font-size: 12px;
+        }
+        thead th {
+            background: black; 
+            color: #fff; 
+            padding-top: 3px; 
+        }
+        tbody th, td {
+            padding: 3px;
+            padding-bottom: 0px;
+        }
+        .number {
+            width: 6%;
+        }
+        .identification {
+            width: 12%;
+        }
+        .enrollment {
+            width: 10%;
+        }
+        .data {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h1>Reporte de Matrículas de la Universidad</h1>
+    <table>
+        <thead>
+            <tr>
+                <th class="number">#</th>
+                <th class="course">Curso</th>
+                <th>Docente</th>
+                <th class="identification">Identificación</th>
+                <th>Estudiante</th>
+                <th class="enrollment">Matrícula</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for enrollment in enrollments %}
+                <tr>
+                    <th class="data">{{ forloop.counter }}</th>
+                    <td>{{ enrollment.course.name }} ({{ enrollment.course.code }})</td>
+                    <td>{{ enrollment.course.professor }}</td>
+                    <td>{{ enrollment.student.identification }}</td>
+                    <td>{{ enrollment.student.paternalSurname }} {{ enrollment.student.maternalSurname }} {{ enrollment.student.names }}</td>
+                    <td>{{ enrollment.enrollmentDate | date:"d/m/Y" }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
+
+
+

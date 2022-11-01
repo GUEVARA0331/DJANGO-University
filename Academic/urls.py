@@ -49,5 +49,6 @@ urlpatterns = [
     path('enrollmente/edit/<int:id>', views.editEnrollment, name='editEnrollment'),
     path('enrollment/delete/<int:id>', views.deleteEnrollment, name='deleteEnrollment'),
     path('enrollment/consult/<identification>', views.consultEnrollments, name='consultEnrollments'),
+    path('enrollment/report', views.enrollments_render_pdf_view, name='reportEnrollments'),
 
 ]+static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -357,6 +357,28 @@ def consultEnrollments(request, identification):
     enrollments = Enrollment.objects.all().prefetch_related(Prefetch('student', queryset=Student.objects.filter(identification__icontains=identification))).filter(student__identification__icontains=identification)
     return render(request, 'enrollments/ajax/consult.html', {'enrollments':enrollments})
     
+def enrollments_render_pdf_view(request):
+    template_path = 'enrollments/report.html'
+    context = {
+        'enrollments': Enrollment.objects.all().order_by('course__name','course__code','student__paternalSurname','student__maternalSurname','student__names'),
+    }
+    # Create a Django response object, and specify content_type as pdf
+    response = HttpResponse(content_type='application/pdf')
+    # id download:
+    # response['Content-Disposition'] = 'attachment; filename="books.pdf"'
+    # if display: 
+    response['Content-Disposition'] = 'filename="enrollments.pdf"'
+    # find the template and render it.
+    template = get_template(template_path)
+    html = template.render(context)
+
+    # create a pdf
+    pisa_status = pisa.CreatePDF(
+       html, dest=response)
+    # if error then show some funny view
+    if pisa_status.err:
+       return HttpResponse('We had some errors <pre>' + html + '</pre>')
+    return response
 
 
 

@@ -1,0 +1,90 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Universidad | Estudiantes</title>    
+
+    <style>
+        h1 {
+            text-align: center;
+            margin-bottom: 0px; 
+            font-size: 20px;
+        }
+        table {
+            border: black 1px solid;
+            font-size: 12px;
+        }
+        thead th {
+            background: black; 
+            color: #fff; 
+            padding-top: 3px; 
+        }
+        tbody th, td {
+            padding: 3px;
+            padding-bottom: 0px;
+        }
+        .number {
+            width: 5%;
+        }
+        .identification {
+            width: 11%;
+        }
+        .name {
+            width: 25%;
+        }
+        .status {
+            width: 8%;
+        }
+        .birthday {
+            width: 10%;
+        }
+        .sex {
+            width: 5%;
+        }
+        .data {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h1>Reporte de Estudiantes de la Universidad</h1>
+    <table>
+        <thead>
+            <tr>
+                <th class="number">#</th>
+                <th class="identification">Identificación</th>
+                <th class="name">Nombre</th>
+                <th>Carrera</th>
+                <th class="status">Estado</th>
+                <th class="birthday">Fecha de Nacimiento</th>
+                <th class="sex">Sexo</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for student in students %}
+                <tr>
+                    <th class="data">{{ forloop.counter }}</th>
+                    <td class="data">{{ student.identification }}</td>
+                    <td>{{ student.paternalSurname }} {{ student.maternalSurname }} {{ student.names }}</td>
+                    <td>{{ student.career.name }} ({{ student.career.code }})</td>
+                    <td class="data">
+                        {% if student.validity %}
+                            <b>Activo</b>
+                        {% else %}
+                            <b>Inactivo</b>
+                        {% endif %}
+                    </td>
+                    <td class="data">{{ student.dateBirth | date:"d/m/Y" }}</td>
+                    <td class="data">{{ student.sex }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
+
+
+
